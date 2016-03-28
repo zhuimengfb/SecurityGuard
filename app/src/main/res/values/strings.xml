@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SecurityGuard</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确认</string>
+    <string name="installTime">安装时间</string>
+    <string name="versionCode">版本号</string>
+    <string name="packageName">应用包名</string>
 </resources>
