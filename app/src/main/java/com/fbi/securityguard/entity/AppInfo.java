@@ -13,7 +13,7 @@ public class AppInfo implements Serializable {
   private String appName;
   private String packageName;
   private String versionName;
-  private Drawable appIcon;
+  private transient Drawable appIcon;
   private long appInstallTime;
   private long appLastUpdateTime;
 

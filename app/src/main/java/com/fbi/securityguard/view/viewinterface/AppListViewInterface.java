@@ -18,5 +18,5 @@ public interface AppListViewInterface {
 
   void showAppDetailInfo(AppInfo appInfo);
 
-  void showAppOperation(AppInfo appInfo);
+  void uninstallApp(AppInfo appInfo);
 }

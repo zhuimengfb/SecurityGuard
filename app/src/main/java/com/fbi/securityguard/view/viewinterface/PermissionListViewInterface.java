@@ -9,5 +9,5 @@ public interface PermissionListViewInterface {
 
     void setToolbarTitle(String title);
 
-    void updatePermissionList(List<String> permissionList);
+    void updatePermissionList(List<String> permissions);
 }
