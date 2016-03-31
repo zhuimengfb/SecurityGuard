@@ -71,7 +71,7 @@ public class AppListViewActivity extends BaseActivity implements AppListViewInte
 
   private void initData() {
     if (appInfoListPresenter == null)
-      appInfoListPresenter = new AppInfoListPresenter(this, this);
+      appInfoListPresenter = new AppInfoListPresenter(this, getApplicationContext());
     appInfoListPresenter.loadingAppInfoList();
   }
 

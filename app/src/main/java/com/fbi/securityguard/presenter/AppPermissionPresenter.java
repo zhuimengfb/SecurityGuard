@@ -39,7 +39,6 @@ public class AppPermissionPresenter {
 
   public void unbind() {
     appPermissionInterface = null;
-    context = null;
   }
 
 }

@@ -9,4 +9,9 @@
     <string name="need">需要</string>
     <string name="n_permission">个权限</string>
     <string name="appPermission">权限管理</string>
+    <string name="traffic">流量</string>
+    <string name="flowUnit">MB</string>
+    <string name="trafficMonitor">流量监控</string>
+    <string name="flowUnitKB">KB</string>
+    <string name="flowUnitMB">MB</string>
 </resources>

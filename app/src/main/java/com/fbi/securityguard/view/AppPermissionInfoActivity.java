@@ -68,7 +68,7 @@ public class AppPermissionInfoActivity extends BaseActivity implements AppPermis
 
   private void initData() {
     if (appPermissionPresenter == null) {
-      appPermissionPresenter = new AppPermissionPresenter(this, this);
+      appPermissionPresenter = new AppPermissionPresenter(this, getApplicationContext());
     }
     appPermissionPresenter.loadingPermission();
   }
