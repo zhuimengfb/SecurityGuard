@@ -26,6 +26,15 @@ public class AppTrafficPresenter {
     this.appTrafficModelInterface = new AppTrafficModel(this.context);
   }
 
+  public AppTrafficPresenter(Context context) {
+    this.context = context;
+    this.appTrafficModelInterface = new AppTrafficModel(this.context);
+  }
+
+  public void countTraffic(int type){
+
+  }
+
   public void unbind() {
     this.appTrafficInterface = null;
   }

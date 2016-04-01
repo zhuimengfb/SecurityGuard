@@ -16,6 +16,8 @@ public interface AppTrafficModelInterface {
 
   void queryTotalTraffic(GetTrafficCallback callback);
 
+  void countTraffic(int type);
+
   interface GetTrafficCallback {
     void getTraffic(List<AppTrafficInfo> appTrafficInfos, long total);
   }
