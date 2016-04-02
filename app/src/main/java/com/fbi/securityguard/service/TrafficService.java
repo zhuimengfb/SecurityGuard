@@ -11,7 +11,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.fbi.securityguard.presenter.AppTrafficPresenter;
 import com.fbi.securityguard.utils.Commons;
+
 
 /**
  * author: bo on 2016/4/1 13:59.
@@ -21,6 +23,7 @@ public class TrafficService extends Service {
 
   private static int lastNetworkState = Commons.STATE_NETWORK_NULL;
   private MyReceiver myReceiver = new MyReceiver();
+  private AppTrafficPresenter appTrafficPresenter;
 
   @Nullable
   @Override
@@ -32,12 +35,18 @@ public class TrafficService extends Service {
   public void onCreate() {
     super.onCreate();
     registerMyReceiver();
-    getInitNetworkState();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        getInitNetworkState();
+        appTrafficPresenter = new AppTrafficPresenter(getApplicationContext());
+      }
+    }).start();
   }
 
   private void getInitNetworkState() {
     ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context
-            .CONNECTIVITY_SERVICE);
+        .CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
     if (networkInfo == null) {
       lastNetworkState = Commons.STATE_NETWORK_NULL;
@@ -48,6 +57,9 @@ public class TrafficService extends Service {
 
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
+    if (appTrafficPresenter != null) {
+      appTrafficPresenter.countTraffic(lastNetworkState);
+    }
     return super.onStartCommand(intent, flags, startId);
   }
 
@@ -69,17 +81,17 @@ public class TrafficService extends Service {
     @Override
     public void onReceive(Context context, Intent intent) {
       ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context
-              .CONNECTIVITY_SERVICE);
+          .CONNECTIVITY_SERVICE);
       NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
       //如果是从无网络切换过来，只需更新lastNetworkState
       if (lastNetworkState == Commons.STATE_NETWORK_NULL) {
         lastNetworkState = networkInfo.getType();
-        Log.d("traffic_change", "100--"+networkInfo.getType());
+        Log.d("traffic_change", "100--" + networkInfo.getType());
       } else {
         //更新状态并且进行流量统计
-
-        if (networkInfo==null){
-          Log.d("traffic_change", lastNetworkState+"--"+Commons.STATE_NETWORK_NULL);
+        appTrafficPresenter.countTraffic(lastNetworkState);
+        if (networkInfo == null) {
+          Log.d("traffic_change", lastNetworkState + "--" + Commons.STATE_NETWORK_NULL);
           lastNetworkState = Commons.STATE_NETWORK_NULL;
         } else {
           if (lastNetworkState != networkInfo.getType()) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,5 +11,131 @@
     <include
         android:id="@+id/toolbar_layout"
         layout="@layout/header_toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/memory_layout"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_below="@id/toolbar_layout"
+        android:background="@color/colorPrimary"
+        >
+
+        <com.fbi.securityguard.view.widget.circleview.DashedCircularProgress
+            android:id="@+id/circle_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            custom:base_color="#6effffff"
+            custom:duration="1000"
+            custom:external_color="@color/gray"
+            custom:max="100"
+            custom:min="0"
+            custom:progress_color="@color/colorAccent"
+            android:layout_centerHorizontal="true"
+            android:fastScrollEnabled="false"
+            >
+            <RelativeLayout
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <!--<TextView
+                    android:textSize="22sp"
+                    android:id="@+id/text"
+                    android:textColor="@color/white"
+                    android:text="@string/memory"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />-->
+
+                <TextView
+                    android:id="@+id/tv_memory_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textSize="38sp"
+                    />
+
+            </RelativeLayout>
+        </com.fbi.securityguard.view.widget.circleview.DashedCircularProgress>
+        <Button
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_view"
+            android:layout_marginTop="10dp"
+            android:text="@string/memory_accelerate"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/memory_layout"
+        android:orientation="horizontal"
+        >
+
+        <RelativeLayout
+            android:id="@+id/traffic_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            >
+            <ImageView
+                android:id="@+id/iv_traffic_icon"
+                android:layout_marginTop="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/traffic_icon"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/iv_traffic_icon"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/trafficMonitor"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/permission_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            >
+            <ImageView
+                android:id="@+id/iv_permission_icon"
+                android:layout_marginTop="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/permission_icon"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/iv_permission_icon"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/appPermission"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            >
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.fbi.securityguard.db.helper.TrafficDataDbHelper;
 import com.fbi.securityguard.entity.TrafficData;
-import com.fbi.securityguard.utils.DateUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * author: bo on 2016/3/31 22:21.
@@ -16,12 +19,11 @@ import com.fbi.securityguard.utils.DateUtils;
 public class TrafficDataDbManager {
 
   private static TrafficDataDbManager trafficDataDbManager;
-  private TrafficDataDbHelper helper;
   private SQLiteDatabase db;
 
   private TrafficDataDbManager(Context context) {
-    helper = new TrafficDataDbHelper(context);
-    db = helper.getWritableDatabase();
+    TrafficDataDbHelper trafficDataDbHelper = new TrafficDataDbHelper(context);
+    db = trafficDataDbHelper.getWritableDatabase();
   }
 
   public static synchronized TrafficDataDbManager getInstance(Context context) {
@@ -33,18 +35,30 @@ public class TrafficDataDbManager {
 
   public void insertTrafficData(TrafficData trafficData) {
     ContentValues contentValues = new ContentValues();
-    contentValues.put(TrafficData.END_TIME, DateUtils.getDateTime(trafficData.getEndTime()
-            .getTime()));
+    contentValues.put(TrafficData.END_TIME, trafficData.getEndTime().getTime());
     contentValues.put(TrafficData.RX_TRAFFIC, trafficData.getRxTraffic());
-    contentValues.put(TrafficData.START_TIME, DateUtils.getDateTime(trafficData.getStartTime()
-            .getTime()));
+    contentValues.put(TrafficData.START_TIME, trafficData.getStartTime().getTime());
     contentValues.put(TrafficData.TOTAL_TRAFFIC, trafficData.getTotalTraffic());
     contentValues.put(TrafficData.TX_TRAFFIC, trafficData.getTxTraffic());
     contentValues.put(TrafficData.TYPE, trafficData.getType());
     contentValues.put(TrafficData.UID, trafficData.getUid());
-    db.insert(helper.TABLE_TRAFFIC_DATA, null, contentValues);
+    db.insert(TrafficDataDbHelper.TABLE_TRAFFIC_DATA, null, contentValues);
   }
 
+  public List<TrafficData> selectTrafficDataByUidAndTime(int uid, Date startTime, Date endTime,
+                                                          int type) {
+    List<TrafficData> trafficDatas = new ArrayList<>();
+    String sql = "select * from " + TrafficDataDbHelper.TABLE_TRAFFIC_DATA + " where "
+        + TrafficData.UID + " =? and " + TrafficData.START_TIME + " >? and " + TrafficData.END_TIME
+        + " <? and " + TrafficData.TYPE + " =? ";
+    Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(uid),
+        String.valueOf(startTime.getTime()), String.valueOf(endTime.getTime()),
+        String.valueOf(type)});
+    while (cursor.moveToNext()) {
+      trafficDatas.add(getTrafficDataFromCursor(cursor));
+    }
+    return trafficDatas;
+  }
 
   private TrafficData getTrafficDataFromCursor(Cursor cursor) {
     TrafficData trafficData = new TrafficData();
@@ -54,10 +68,9 @@ public class TrafficDataDbManager {
       trafficData.setTotalTraffic(cursor.getLong(cursor.getColumnIndex(TrafficData.TOTAL_TRAFFIC)));
       trafficData.setType(cursor.getInt(cursor.getColumnIndex(TrafficData.TYPE)));
       trafficData.setUid(cursor.getInt(cursor.getColumnIndex(TrafficData.UID)));
-      trafficData.setEndTime(DateUtils.parseDateTime(cursor.getString(cursor.getColumnIndex
-              (TrafficData.END_TIME))));
-      trafficData.setStartTime(DateUtils.parseDateTime(cursor.getString(cursor.getColumnIndex
-              (TrafficData.START_TIME))));
+      trafficData.setEndTime(new Date(cursor.getLong(cursor.getColumnIndex(TrafficData.END_TIME))));
+      trafficData.setStartTime(new Date(cursor.getLong(cursor.getColumnIndex(TrafficData
+          .START_TIME))));
     }
     return trafficData;
   }

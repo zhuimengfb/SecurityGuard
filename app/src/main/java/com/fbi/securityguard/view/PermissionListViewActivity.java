@@ -14,16 +14,16 @@ import com.fbi.securityguard.view.base.BaseActivity;
 import com.fbi.securityguard.view.viewinterface.PermissionListViewInterface;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class PermissionListViewActivity extends BaseActivity implements
-        PermissionListViewInterface {
+                                                             PermissionListViewInterface {
 
   @Bind(R.id.rv_permission_list)
   RecyclerView permissionRecyclerView;
@@ -44,7 +44,7 @@ public class PermissionListViewActivity extends BaseActivity implements
   private void initView() {
     Bundle bundle = getIntent().getBundleExtra(Commons.KEY_APP_PERMISSION_INFO_BUNDLE);
     AppPermissionInfo appPermissionInfo = (AppPermissionInfo) bundle.getSerializable(Commons
-            .KEY_APP_PERMISSION_INFO);
+        .KEY_APP_PERMISSION_INFO);
     permissions.addAll(Arrays.asList(appPermissionInfo.getPermissions()));
     toolbar.setTitle(appPermissionInfo.getAppInfo().getAppName());
     setSupportActionBar(toolbar);
@@ -55,8 +55,8 @@ public class PermissionListViewActivity extends BaseActivity implements
     permissionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     permissionRecyclerView.setAdapter(permissionRecyclerAdapter);
     permissionRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    permissionRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder
-            (this).build());
+    permissionRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
+        .build());
   }
 
   @Override

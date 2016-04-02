@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.PermissionListViewActivity"/>
+        <activity android:name=".view.AppPermissionInfoActivity"/>
+        <activity android:name=".view.AppTrafficActivity"/>
         <service android:name=".service.TrafficService"/>
     </application>
 

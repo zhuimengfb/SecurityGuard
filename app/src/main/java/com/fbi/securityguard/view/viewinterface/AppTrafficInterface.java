@@ -10,5 +10,9 @@ import java.util.List;
  */
 public interface AppTrafficInterface {
 
+  void showLoadingProgress();
+
+  void hideLoadingProgress();
+
   void updateList(List<AppTrafficInfo> appTrafficInfoList, long totalTraffic);
 }

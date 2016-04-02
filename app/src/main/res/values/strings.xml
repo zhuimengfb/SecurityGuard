@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SecurityGuard</string>
+    <string name="app_name">安全管家</string>
     <string name="cancel">取消</string>
     <string name="ok">确认</string>
     <string name="installTime">安装时间</string>
@@ -14,4 +14,7 @@
     <string name="trafficMonitor">流量监控</string>
     <string name="flowUnitKB">KB</string>
     <string name="flowUnitMB">MB</string>
+    <string name="memory">内存占用</string>
+    <string name="memory_accelerate">一键加速</string>
+    <string name="permission_control">权限管理</string>
 </resources>

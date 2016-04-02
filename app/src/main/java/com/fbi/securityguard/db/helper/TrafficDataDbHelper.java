@@ -22,11 +22,11 @@ public class TrafficDataDbHelper extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
-    db.execSQL("create table if not exists " + TABLE_TRAFFIC_DATA +
-            "(id integer primary key autoincrement," + TrafficData.UID + " VARCHAR, " + TrafficData
-            .RX_TRAFFIC + " NUMBER, " + TrafficData.TX_TRAFFIC + " number, " + TrafficData
-            .TOTAL_TRAFFIC + " number, " + TrafficData.START_TIME + " timestamp, " + TrafficData
-            .END_TIME + " timestamp");
+    db.execSQL("create table if not exists " + TABLE_TRAFFIC_DATA
+        + "(id integer primary key autoincrement," + TrafficData.UID + " varchar, " + TrafficData
+        .RX_TRAFFIC + " number, " + TrafficData.TX_TRAFFIC + " number, " + TrafficData
+        .TOTAL_TRAFFIC + " number, " + TrafficData.START_TIME + " integer, " + TrafficData
+        .END_TIME + " integer, " + TrafficData.TYPE + " integer)");
   }
 
   @Override
