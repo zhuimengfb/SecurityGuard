@@ -17,12 +17,12 @@ import java.util.List;
  */
 public class PermissionRecyclerAdapter extends RecyclerView.Adapter<PermissionRecyclerAdapter.PermissionViewHolder> {
 
-    private List<String> permissionList;
+    private List<String> permissions;
     private Context context;
 
-    public PermissionRecyclerAdapter(Context context, List<String> permissionList) {
+    public PermissionRecyclerAdapter(Context context, List<String> permissions) {
         this.context = context;
-        this.permissionList = permissionList;
+        this.permissions = permissions;
     }
 
     @Override
@@ -33,12 +33,12 @@ public class PermissionRecyclerAdapter extends RecyclerView.Adapter<PermissionRe
 
     @Override
     public void onBindViewHolder(PermissionViewHolder holder, int position) {
-        holder.permissionName.setText(permissionList.get(position));
+        holder.permissionName.setText(permissions.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return (permissionList == null ? 0 : permissionList.size());
+        return (permissions == null ? 0 : permissions.size());
     }
 
     class PermissionViewHolder extends RecyclerView.ViewHolder {

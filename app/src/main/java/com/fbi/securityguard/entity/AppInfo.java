@@ -10,12 +10,21 @@ import java.io.Serializable;
  */
 public class AppInfo implements Serializable {
 
+  private int uid;
   private String appName;
   private String packageName;
   private String versionName;
-  private Drawable appIcon;
+  private transient Drawable appIcon;
   private long appInstallTime;
   private long appLastUpdateTime;
+
+  public int getUid() {
+    return uid;
+  }
+
+  public void setUid(int uid) {
+    this.uid = uid;
+  }
 
   public String getAppName() {
     return appName;

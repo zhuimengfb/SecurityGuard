@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/app_permission_item"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="70dp"
+              android:background="?android:attr/selectableItemBackground"
+              android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_app_icon"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_app_icon"
+            android:text="text"
+            android:textSize="18sp"
+            android:textColor="@color/gray"
+            />
+
+        <TextView
+            android:id="@+id/tv_permission_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_app_icon"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_app_icon"
+            android:text="text"
+            android:textSize="16sp"
+            android:textColor="@color/gray"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

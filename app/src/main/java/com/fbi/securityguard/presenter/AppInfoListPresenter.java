@@ -7,7 +7,6 @@ import com.fbi.securityguard.model.AppInfoListModel;
 import com.fbi.securityguard.model.modelinterface.AppInfoListModelInterface;
 import com.fbi.securityguard.view.viewinterface.AppListViewInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +17,12 @@ public class AppInfoListPresenter {
 
     private AppListViewInterface appListView = null;
     private AppInfoListModelInterface appInfoListModel = null;
-    private List<AppInfo> appInfoList = new ArrayList<>();
     private Context context;
 
     public AppInfoListPresenter(AppListViewInterface appListView, Context context) {
         this.appListView = appListView;
         this.context = context;
-        this.appInfoListModel = new AppInfoListModel(context);
+        this.appInfoListModel = new AppInfoListModel(this.context);
     }
 
     public void loadingAppInfoList() {
@@ -40,7 +38,6 @@ public class AppInfoListPresenter {
 
     public void unBind(AppListViewInterface appListView, Context context) {
         this.appListView = null;
-        this.context = null;
     }
 
 }
