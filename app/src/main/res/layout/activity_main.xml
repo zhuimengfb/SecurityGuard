@@ -19,17 +19,16 @@
         android:layout_below="@id/toolbar_layout"
         android:background="@color/colorPrimary"
         >
-
         <com.fbi.securityguard.view.widget.circleview.DashedCircularProgress
             android:id="@+id/circle_view"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            custom:base_color="#6effffff"
+            custom:base_color="@color/white"
             custom:duration="1000"
-            custom:external_color="@color/gray"
+            custom:external_color="@color/white"
             custom:max="100"
             custom:min="0"
-            custom:progress_color="@color/colorAccent"
+            custom:progress_color="@color/colorPrimaryDark"
             android:layout_centerHorizontal="true"
             android:fastScrollEnabled="false"
             >
@@ -37,15 +36,6 @@
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <!--<TextView
-                    android:textSize="22sp"
-                    android:id="@+id/text"
-                    android:textColor="@color/white"
-                    android:text="@string/memory"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />-->
 
                 <TextView
                     android:id="@+id/tv_memory_number"
@@ -60,16 +50,21 @@
             </RelativeLayout>
         </com.fbi.securityguard.view.widget.circleview.DashedCircularProgress>
         <Button
+            android:id="@+id/accelerateButton"
             android:layout_width="220dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_below="@id/circle_view"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
             android:text="@string/memory_accelerate"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_centerInParent="true"
             />
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/first_layout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_below="@id/memory_layout"
@@ -127,10 +122,91 @@
                 />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/app_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            >
+            <ImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_marginTop="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/app_icon"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/iv_app_icon"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/appControl"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/first_layout"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:id="@+id/running_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            >
+            <ImageView
+                android:id="@+id/iv_running_icon"
+                android:layout_marginTop="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/running_app_icon"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/iv_running_icon"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/runningMonitor"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/wifi_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            >
+            <ImageView
+                android:id="@+id/iv_wifi_icon"
+                android:layout_marginTop="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/wifi_icon"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/iv_wifi_icon"
+                android:text="@string/wifiMonitor"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             >
 
         </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.fbi.securityguard.presenter;
 
 import android.content.Context;
+import android.os.Handler;
 
 import com.fbi.securityguard.entity.AppPermissionInfo;
 import com.fbi.securityguard.model.AppPermissionModel;
@@ -18,11 +19,12 @@ public class AppPermissionPresenter {
   private Context context;
   private AppPermissionInterface appPermissionInterface;
   private AppPermissionModelInterface appPermissionModelInterface;
-
+  private Handler handler;
   public AppPermissionPresenter(AppPermissionInterface appPermissionInterface, Context context) {
     this.appPermissionInterface = appPermissionInterface;
     this.context = context;
     appPermissionModelInterface = new AppPermissionModel(this.context);
+    handler = new Handler(context.getMainLooper());
   }
 
   public void loadingPermission() {
@@ -30,9 +32,14 @@ public class AppPermissionPresenter {
     appPermissionModelInterface.queryAppPermissionList(new AppPermissionModelInterface
             .AppPermissionListCallback() {
       @Override
-      public void onGetAppPermissionList(List<AppPermissionInfo> appPermissionInfoList) {
-        appPermissionInterface.updateAppPermissionInfoList(appPermissionInfoList);
-        appPermissionInterface.hideLoadingProgress();
+      public void onGetAppPermissionList(final List<AppPermissionInfo> appPermissionInfoList) {
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            appPermissionInterface.updateAppPermissionInfoList(appPermissionInfoList);
+            appPermissionInterface.hideLoadingProgress();
+          }
+        });
       }
     });
   }

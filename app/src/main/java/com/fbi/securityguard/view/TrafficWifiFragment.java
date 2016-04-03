@@ -1,23 +1,21 @@
 package com.fbi.securityguard.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.fbi.securityguard.R;
 import com.fbi.securityguard.adapter.AppTrafficRecyclerViewAdapter;
 import com.fbi.securityguard.entity.AppTrafficInfo;
 import com.fbi.securityguard.presenter.AppTrafficPresenter;
-import com.fbi.securityguard.service.TrafficService;
 import com.fbi.securityguard.utils.Commons;
 import com.fbi.securityguard.utils.TrafficUtils;
-import com.fbi.securityguard.view.base.BaseActivity;
+import com.fbi.securityguard.view.base.BaseFragment;
 import com.fbi.securityguard.view.viewinterface.AppTrafficInterface;
 import com.fbi.securityguard.view.widget.sinkview.SinkView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -29,15 +27,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * author: bo on 2016/3/31 19:27.
- * email: bofu1993@163.com
+ * Created by fubo on 2016/4/3 0003.
+ * email:bofu1993@163.com
  */
-public class AppTrafficActivity extends BaseActivity implements AppTrafficInterface {
+public class TrafficWifiFragment extends BaseFragment implements AppTrafficInterface {
 
   @Bind(R.id.rv_traffic_info)
   RecyclerView trafficRecyclerView;
-  @Bind(R.id.toolbar)
-  Toolbar toolbar;
   @Bind(R.id.pb_loading)
   ProgressBar loadingProgressBar;
   @Bind(R.id.sinkView)
@@ -47,51 +43,50 @@ public class AppTrafficActivity extends BaseActivity implements AppTrafficInterf
   private AppTrafficPresenter appTrafficPresenter;
   private long totalTraffic = 0;
 
+  public static TrafficWifiFragment getInstance(String title) {
+    TrafficWifiFragment trafficWifiFragment = new TrafficWifiFragment();
+    Bundle args = new Bundle();
+    args.putString(TITLE, title);
+    trafficWifiFragment.setArguments(args);
+    return trafficWifiFragment;
+  }
+
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.fragment_traffic_wifi);
-    ButterKnife.bind(this);
-    initTrafficService();
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+      savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_traffic_wifi, container, false);
+    ButterKnife.bind(this, view);
     initView();
     initData();
     initEvent();
-  }
-
-  private void initTrafficService() {
-    Intent intent = new Intent();
-    intent.setClass(this, TrafficService.class);
-    startService(intent);
-  }
-
-  private void initView() {
-    toolbar.setTitle(getResources().getString(R.string.trafficMonitor));
-    setSupportActionBar(toolbar);
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
-  }
-
-  private void initData() {
-    appTrafficRecyclerViewAdapter = new AppTrafficRecyclerViewAdapter(getApplicationContext(),
-        appTrafficInfos, totalTraffic, Commons.RECEIVE_TRAFFIC_TYPE);
-    trafficRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    trafficRecyclerView.setAdapter(appTrafficRecyclerViewAdapter);
-    trafficRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    trafficRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
-        .build());
-    if (appTrafficPresenter == null) {
-      appTrafficPresenter = new AppTrafficPresenter(this, this);
-    }
-    appTrafficPresenter.loadWifiTrafficThisMonth();
+    return view;
   }
 
   private void initEvent() {
 
   }
 
+  private void initData() {
+    appTrafficRecyclerViewAdapter = new AppTrafficRecyclerViewAdapter(getActivity()
+        .getApplicationContext(), appTrafficInfos, totalTraffic, Commons.RECEIVE_TRAFFIC_TYPE);
+    trafficRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    trafficRecyclerView.setAdapter(appTrafficRecyclerViewAdapter);
+    trafficRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    trafficRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+        .build());
+    if (appTrafficPresenter == null) {
+      appTrafficPresenter = new AppTrafficPresenter(getActivity(), this);
+    }
+    appTrafficPresenter.loadWifiTrafficThisMonth();
+    showLoadingProgress();
+  }
+
+  private void initView() {
+
+  }
+
   @Override
-  protected void onDestroy() {
+  public void onDestroy() {
     super.onDestroy();
     appTrafficPresenter.unbind();
     appTrafficPresenter = null;
@@ -123,6 +118,6 @@ public class AppTrafficActivity extends BaseActivity implements AppTrafficInterf
     sinkView.setText(text, SinkView.TYPE_USED);
     appTrafficRecyclerViewAdapter.setTotalTraffic(totalTraffic);
     appTrafficRecyclerViewAdapter.notifyDataSetChanged();
+    hideLoadingProgress();
   }
-
 }

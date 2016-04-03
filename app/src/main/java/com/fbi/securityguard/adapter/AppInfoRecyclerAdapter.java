@@ -41,18 +41,20 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
   public void onBindViewHolder(AppViewHolder holder, final int position) {
     holder.setAppIcon(appInfoList.get(position).getAppIcon());
     holder.setAppName(appInfoList.get(position).getAppName());
-    holder.appItemLinearLayout.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        onItemClickListener.click(view, position);
-      }
-    });
-    holder.appItemLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-      @Override
-      public boolean onLongClick(View view) {
-        return onItemClickListener.longClick(view, position);
-      }
-    });
+    if (onItemClickListener != null) {
+      holder.appItemLinearLayout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          onItemClickListener.click(view, position);
+        }
+      });
+      holder.appItemLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+          return onItemClickListener.longClick(view, position);
+        }
+      });
+    }
   }
 
   @Override

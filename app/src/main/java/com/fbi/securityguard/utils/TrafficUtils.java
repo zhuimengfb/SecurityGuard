@@ -21,11 +21,11 @@ public class TrafficUtils {
   private static final DecimalFormat df = new DecimalFormat("######0.00");
 
   public static double getMBFromByte(long traffic) {
-    return Double.valueOf(df.format(traffic / 1024 / 1024));
+    return Double.valueOf(df.format(traffic / 1024.0f / 1024.0f));
   }
 
   public static double getKBFromByte(long traffic) {
-    return Double.valueOf(df.format(traffic / 1024));
+    return Double.valueOf(df.format(traffic / 1024.0f));
   }
 
   public static List<AppTrafficInfo> sortAndFilterTraffic(List<AppTrafficInfo> appTrafficInfos,
@@ -34,17 +34,17 @@ public class TrafficUtils {
     for (int i = 0; i < appTrafficInfos.size(); i++) {
       switch (type) {
         case Commons.TOTAL_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getTotalTraffic() > 1024) {
+          if (appTrafficInfos.get(i).getTotalTraffic() > 1023) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;
         case Commons.SEND_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getTxTraffic() > 1024) {
+          if (appTrafficInfos.get(i).getTxTraffic() > 1023) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;
         case Commons.RECEIVE_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getRxTraffic() > 1024) {
+          if (appTrafficInfos.get(i).getRxTraffic() > 1023) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;

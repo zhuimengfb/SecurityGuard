@@ -65,8 +65,10 @@ public class TrafficService extends Service {
 
   @Override
   public void onDestroy() {
-    super.onDestroy();
     unregisterReceiver(myReceiver);
+    Intent intent = new Intent(this, TrafficService.class);
+    startService(intent);
+    super.onDestroy();
   }
 
   private void registerMyReceiver() {

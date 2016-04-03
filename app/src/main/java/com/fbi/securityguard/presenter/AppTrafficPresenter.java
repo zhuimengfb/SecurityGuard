@@ -92,23 +92,51 @@ public class AppTrafficPresenter {
     }
   }
 
-  public void loadWifiTrafficThisWeek() {
+  public void loadWifiTrafficThisMonth() {
     appTrafficInterface.showLoadingProgress();
-    Date now = new Date();
-    Date lastWeek = new Date(now.getTime() - DateUtils.WEEK_PERIOD);
-    appTrafficModelInterface.queryWifiTotalTraffic(lastWeek, now, new AppTrafficModelInterface
-        .GetTrafficCallback() {
+    new Thread(new Runnable() {
       @Override
-      public void getTraffic(final List<AppTrafficInfo> appTrafficInfos, final long total) {
-        handler.post(new Runnable() {
+      public void run() {
+        Date now = new Date();
+        Date firstDayOfMonth = new Date(DateUtils.getFirstDayOfMonth());
+        appTrafficModelInterface.queryWifiTotalTraffic(firstDayOfMonth, now, new AppTrafficModelInterface
+            .GetTrafficCallback() {
           @Override
-          public void run() {
-            appTrafficInterface.updateList(appTrafficInfos, total);
-            appTrafficInterface.hideLoadingProgress();
+          public void getTraffic(final List<AppTrafficInfo> appTrafficInfos, final long total) {
+            handler.post(new Runnable() {
+              @Override
+              public void run() {
+                appTrafficInterface.updateList(appTrafficInfos, total);
+              }
+            });
           }
         });
       }
-    });
+    }).start();
+  }
+
+  public void loadMobileTrafficThisMonth() {
+    appTrafficInterface.showLoadingProgress();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        Date now = new Date();
+        Date firstDayOfMonth = new Date(DateUtils.getFirstDayOfMonth());
+        appTrafficModelInterface.queryMobileTotalTraffic(firstDayOfMonth, now, new
+            AppTrafficModelInterface
+                .GetTrafficCallback() {
+              @Override
+              public void getTraffic(final List<AppTrafficInfo> appTrafficInfos, final long total) {
+                handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                    appTrafficInterface.updateList(appTrafficInfos, total);
+                  }
+                });
+              }
+            });
+      }
+    }).start();
   }
 
 

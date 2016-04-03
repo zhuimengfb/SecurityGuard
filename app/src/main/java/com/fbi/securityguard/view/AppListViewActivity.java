@@ -19,11 +19,11 @@ import com.fbi.securityguard.view.base.BaseActivity;
 import com.fbi.securityguard.view.viewinterface.AppListViewInterface;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * author: bo on 2016/3/28 19:40.
@@ -83,6 +83,7 @@ public class AppListViewActivity extends BaseActivity implements AppListViewInte
     appRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
     toolbar.setTitle(getResources().getString(R.string.appList));
     setSupportActionBar(toolbar);
+    setToolbarDisplayHomeAsUp();
   }
 
   @Override

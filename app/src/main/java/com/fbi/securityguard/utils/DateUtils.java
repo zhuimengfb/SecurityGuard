@@ -2,7 +2,9 @@ package com.fbi.securityguard.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -34,5 +36,15 @@ public class DateUtils {
       exception.printStackTrace();
     }
     return date;
+  }
+
+  public static long getFirstDayOfMonth() {
+    Calendar calendar = Calendar.getInstance();
+    Date theDate=calendar.getTime();
+    GregorianCalendar gcLast=(GregorianCalendar)Calendar.getInstance();
+    gcLast.setTime(theDate);
+    //设置为第一天
+    gcLast.set(Calendar.DAY_OF_MONTH, 1);
+    return gcLast.getTime().getTime();
   }
 }

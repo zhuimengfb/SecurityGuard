@@ -8,8 +8,12 @@ public class Commons {
 
   public static final String PACKAGE_NAME = "com.fbi.securityguard";
   public static final String KEY_APP_PERMISSION_INFO = PACKAGE_NAME + ".app_permission_info";
-  public static final String KEY_APP_PERMISSION_INFO_BUNDLE = PACKAGE_NAME + "" +
-      ".app_permission_info_bundle";
+  public static final String KEY_APP_PERMISSION_INFO_BUNDLE = PACKAGE_NAME + ""
+      + ".app_permission_info_bundle";
+  public static final String KEY_PERMISSION_CLASSIFIER = PACKAGE_NAME + ""
+      + ".key_permission_classifier";
+  public static final String KEY_PERMISSION_CLASSIFIER_BUNDLE = PACKAGE_NAME + ""
+      + ".key_permission_classifier_bundle";
 
   public static final String ACTION_COUNT_TRAFFIC = PACKAGE_NAME + ".count_traffic";
 

@@ -7,7 +7,7 @@
     <string name="packageName">应用包名</string>
     <string name="appList">应用列表</string>
     <string name="need">需要</string>
-    <string name="n_permission">个权限</string>
+    <string name="n_permission">项权限</string>
     <string name="appPermission">权限管理</string>
     <string name="traffic">流量</string>
     <string name="flowUnit">MB</string>
@@ -17,4 +17,15 @@
     <string name="memory">内存占用</string>
     <string name="memory_accelerate">一键加速</string>
     <string name="permission_control">权限管理</string>
+    <string name="number_unit">个</string>
+    <string name="app">应用程序</string>
+    <string name="permission">权限</string>
+    <string name="appControl">应用管理</string>
+    <string name="setTraffic">设置套餐</string>
+    <string name="usedTrffix">已用流量</string>
+    <string name="unusedTraffic">剩余流量</string>
+    <string name="wifi">无线网络</string>
+    <string name="mobileNetwork">移动网络</string>
+    <string name="runningMonitor">后台监控</string>
+    <string name="wifiMonitor">wifi监控</string>
 </resources>
