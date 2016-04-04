@@ -46,6 +46,5 @@ public class AppInfoListModel implements AppInfoListModelInterface {
         callback.onGetAppList(appInfos);
       }
     }).run();
-
   }
 }

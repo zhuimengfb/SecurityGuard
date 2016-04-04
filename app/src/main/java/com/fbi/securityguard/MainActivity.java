@@ -1,8 +1,8 @@
 package com.fbi.securityguard;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +13,7 @@ import com.fbi.securityguard.presenter.RunningAppPresenter;
 import com.fbi.securityguard.service.TrafficService;
 import com.fbi.securityguard.view.AppListViewActivity;
 import com.fbi.securityguard.view.PermissionControlActivity;
+import com.fbi.securityguard.view.RunningAppActivity;
 import com.fbi.securityguard.view.TrafficControlActivity;
 import com.fbi.securityguard.view.base.BaseActivity;
 import com.fbi.securityguard.view.viewinterface.RunningAppInterface;
@@ -42,6 +43,7 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
   @Bind(R.id.accelerateButton)
   Button accelerateButton;
   private RunningAppPresenter runningAppPresenter = null;
+  private Handler handler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,15 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
     ButterKnife.bind(this);
     initView();
     initData();
-    getMemoryInfo();
     initEvent();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (runningAppPresenter != null) {
+      runningAppPresenter.getAvailMemory();
+    }
   }
 
   private void initData() {
@@ -60,6 +69,17 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
       runningAppPresenter = new RunningAppPresenter(this, this);
     }
     runningAppPresenter.getAvailMemory();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        initTrafficService();
+      }
+    }).start();
+  }
+  private void initTrafficService() {
+    Intent intent = new Intent();
+    intent.setClass(MainActivity.this, TrafficService.class);
+    startService(intent);
   }
 
   private void initEvent() {
@@ -78,7 +98,7 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
     appLayout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        gotoAppControlActiviyt();
+        gotoAppControlActivity();
       }
     });
     runningLayout.setOnClickListener(new View.OnClickListener() {
@@ -102,39 +122,25 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
   }
 
   private void gotoRunningAppActivity() {
-
+    gotoNewActivity(RunningAppActivity.class);
   }
+
   private void gotoWifiMonitorActivity() {
 
   }
   private void gotoTrafficActivity() {
-    Intent intent = new Intent();
-    intent.setClass(this, TrafficControlActivity.class);
-    startActivity(intent);
+    gotoNewActivity(TrafficControlActivity.class);
   }
   private void gotoPermissionActivity() {
-    Intent intent = new Intent();
-    intent.setClass(this, PermissionControlActivity.class);
-    startActivity(intent);
+    gotoNewActivity(PermissionControlActivity.class);
   }
 
-  private void gotoAppControlActiviyt() {
-    Intent intent = new Intent();
-    intent.setClass(this, AppListViewActivity.class);
-    startActivity(intent);
+  private void gotoAppControlActivity() {
+    gotoNewActivity(AppListViewActivity.class);
   }
   private void initView() {
     toolbar.setTitle(getResources().getString(R.string.app_name));
     setSupportActionBar(toolbar);
-  }
-
-  private void getMemoryInfo() {
-    final ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-    ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
-    activityManager.getMemoryInfo(info);
-    circularProgress.setValue(100 - info.availMem * 100 / info.totalMem);
-    String number = String.valueOf(100 - info.availMem * 100 / info.totalMem) + "%";
-    memoryNumberTextView.setText(number);
   }
 
   @Override

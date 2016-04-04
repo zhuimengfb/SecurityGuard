@@ -1,5 +1,6 @@
 package com.fbi.securityguard.view.base;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,12 @@ public class BaseActivity extends AppCompatActivity {
       actionBar.setHomeButtonEnabled(true);
       actionBar.setDisplayHomeAsUpEnabled(true);
     }
+  }
+
+  public void gotoNewActivity(Class<?> cls ) {
+    Intent intent = new Intent();
+    intent.setClass(this, cls);
+    startActivity(intent);
   }
 
 }

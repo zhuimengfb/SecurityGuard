@@ -2,12 +2,13 @@ package com.fbi.securityguard.presenter;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.os.Handler;
 
 import com.fbi.securityguard.model.RunningAppModel;
 import com.fbi.securityguard.view.viewinterface.RunningAppInterface;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -20,13 +21,24 @@ public class RunningAppPresenter {
   private Context context;
   private RunningAppInterface runningAppInterface;
   private RunningAppModel runningAppModel;
+  private Handler handler;
+  private static final int MEMORY_THREADHOLD = 20;
+
+  public RunningAppPresenter(Context context) {
+    this.context = context;
+    activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+    runningAppModel = new RunningAppModel(context);
+    handler = new Handler(context.getMainLooper());
+  }
 
   public RunningAppPresenter(Context context, RunningAppInterface runningAppInterface) {
     this.context = context;
     this.runningAppInterface = runningAppInterface;
     activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     runningAppModel = new RunningAppModel(context);
+    handler = new Handler(context.getMainLooper());
   }
+
 
   public void getAvailMemory() {
     ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
@@ -36,27 +48,63 @@ public class RunningAppPresenter {
     }
   }
 
-  public void killOthers() {
-    runningProcesses = activityManager.getRunningServices(100);
-    for (ActivityManager.RunningServiceInfo runningProcess : runningProcesses) {
-      try {
-        String packName = runningProcess.service.getPackageName();
-
-        ApplicationInfo applicationInfo = context.getPackageManager().getPackageInfo(packName, 0).applicationInfo;
-        if (! runningAppModel.isInWhiteList(packName) && filterApp(applicationInfo)) {
-          forceStopPackage(packName, context);
+  public void killOthersInService() {
+    handler.post(new Runnable() {
+      @Override
+      public void run() {
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(info);
+        if (100 - info.availMem * 100 / info.totalMem < MEMORY_THREADHOLD) {
+          runningProcesses = activityManager.getRunningServices(100);
+          for (ActivityManager.RunningServiceInfo runningProcess : runningProcesses) {
+            try {
+              String packName = runningProcess.service.getPackageName();
+              ApplicationInfo applicationInfo = context.getPackageManager().getPackageInfo
+                  (packName, 0).applicationInfo;
+              if (! runningAppModel.isInWhiteList(packName) && filterApp(applicationInfo)) {
+                context.stopService(new Intent(context, runningProcess.service.getClass()));
+                forceStopPackage(packName, context);
+              }
+            } catch (Exception exception) {
+              exception.printStackTrace();
+            }
+          }
         }
-      } catch (Exception exception) {
-        exception.printStackTrace();
       }
-    }
-    getAvailMemory();
+    });
+  }
+
+
+
+  public void killOthers() {
+    handler.post(new Runnable() {
+      @Override
+      public void run() {
+        runningProcesses = activityManager.getRunningServices(100);
+        for (ActivityManager.RunningServiceInfo runningProcess : runningProcesses) {
+          try {
+            String packName = runningProcess.service.getPackageName();
+            ApplicationInfo applicationInfo = context.getPackageManager().getPackageInfo
+                (packName, 0).applicationInfo;
+            if (! runningAppModel.isInWhiteList(packName) && filterApp(applicationInfo)) {
+              context.stopService(new Intent(context, runningProcess.service.getClass()));
+              forceStopPackage(packName, context);
+            }
+          } catch (Exception exception) {
+            exception.printStackTrace();
+          }
+        }
+        getAvailMemory();
+      }
+    });
   }
 
   private void forceStopPackage(String pkgName,Context context) throws Exception {
     ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-    Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String.class);
-    method.invoke(am, pkgName);
+    am.killBackgroundProcesses(pkgName);
+    /*Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String.class);
+    method.setAccessible(true);
+    method.invoke(am, pkgName);*/
   }
 
   /**判断某个应用程序是 不是三方的应用程序.

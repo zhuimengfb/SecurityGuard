@@ -9,6 +9,7 @@ import com.fbi.securityguard.entity.AppInfo;
 import com.fbi.securityguard.entity.AppTrafficInfo;
 import com.fbi.securityguard.entity.TrafficData;
 import com.fbi.securityguard.model.modelinterface.AppTrafficModelInterface;
+import com.fbi.securityguard.service.TrafficService;
 import com.fbi.securityguard.utils.Commons;
 import com.fbi.securityguard.utils.TrafficPreferencesUtils;
 import com.fbi.securityguard.utils.TrafficUtils;
@@ -220,7 +221,9 @@ public class AppTrafficModel implements AppTrafficModelInterface {
   }
 
   private List<AppTrafficInfo> queryDetailTraffic(int type, Date startTime, Date endTime) {
-    countTraffic(type);
+    if (TrafficService.lastNetworkState != Commons.STATE_NETWORK_NULL) {
+      countTraffic(TrafficService.lastNetworkState );
+    }
     List<AppTrafficInfo> appTrafficInfoList = new ArrayList<>();
     for (AppTrafficInfo appTrafficInfo : appTrafficInfos) {
       List<TrafficData> trafficDatas = trafficDataDbManager.selectTrafficDataByUidAndTime(

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+              android:layout_height="70dp">
+
+    <ImageView
+        android:id="@+id/iv_app_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_app_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/iv_app_icon"
+        android:text="text"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        />
+    <TextView
+        android:id="@+id/tvMemoryOccupy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_app_icon"
+        android:layout_toRightOf="@id/iv_app_icon"
+        android:layout_marginLeft="10dp"
+        android:text="@string/memoryOccupy"
+        />
+    <TextView
+        android:id="@+id/tvWhiteList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:text="@string/whiteList"
+        android:textColor="@color/colorPrimary"
+        />
+</RelativeLayout>

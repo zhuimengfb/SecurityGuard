@@ -21,7 +21,7 @@ import com.fbi.securityguard.utils.Commons;
  */
 public class TrafficService extends Service {
 
-  private static int lastNetworkState = Commons.STATE_NETWORK_NULL;
+  public static volatile int lastNetworkState = Commons.STATE_NETWORK_NULL;
   private MyReceiver myReceiver = new MyReceiver();
   private AppTrafficPresenter appTrafficPresenter;
 
@@ -35,13 +35,7 @@ public class TrafficService extends Service {
   public void onCreate() {
     super.onCreate();
     registerMyReceiver();
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        getInitNetworkState();
-        appTrafficPresenter = new AppTrafficPresenter(getApplicationContext());
-      }
-    }).start();
+    getInitNetworkState();
   }
 
   private void getInitNetworkState() {
@@ -57,10 +51,11 @@ public class TrafficService extends Service {
 
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
-    if (appTrafficPresenter != null) {
-      appTrafficPresenter.countTraffic(lastNetworkState);
+    if (appTrafficPresenter == null) {
+      appTrafficPresenter = new AppTrafficPresenter(getApplicationContext());
     }
-    return super.onStartCommand(intent, flags, startId);
+    appTrafficPresenter.countTraffic(lastNetworkState);
+    return START_STICKY;
   }
 
   @Override
@@ -68,6 +63,7 @@ public class TrafficService extends Service {
     unregisterReceiver(myReceiver);
     Intent intent = new Intent(this, TrafficService.class);
     startService(intent);
+    Log.d("trafficService", "onDestroy");
     super.onDestroy();
   }
 
@@ -91,7 +87,9 @@ public class TrafficService extends Service {
         Log.d("traffic_change", "100--" + networkInfo.getType());
       } else {
         //更新状态并且进行流量统计
-        appTrafficPresenter.countTraffic(lastNetworkState);
+        if (appTrafficPresenter != null) {
+          appTrafficPresenter.countTraffic(lastNetworkState);
+        }
         if (networkInfo == null) {
           Log.d("traffic_change", lastNetworkState + "--" + Commons.STATE_NETWORK_NULL);
           lastNetworkState = Commons.STATE_NETWORK_NULL;

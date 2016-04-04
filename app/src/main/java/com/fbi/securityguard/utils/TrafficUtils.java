@@ -28,23 +28,26 @@ public class TrafficUtils {
     return Double.valueOf(df.format(traffic / 1024.0f));
   }
 
+  public static double getMBFromKB(long traffic) {
+    return Double.valueOf(df.format(traffic / 1024.0f));
+  }
   public static List<AppTrafficInfo> sortAndFilterTraffic(List<AppTrafficInfo> appTrafficInfos,
                                                           int type) {
     List<AppTrafficInfo> appTrafficInfoList = new ArrayList<>();
     for (int i = 0; i < appTrafficInfos.size(); i++) {
       switch (type) {
         case Commons.TOTAL_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getTotalTraffic() > 1023) {
+          if (appTrafficInfos.get(i).getTotalTraffic() > 1024) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;
         case Commons.SEND_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getTxTraffic() > 1023) {
+          if (appTrafficInfos.get(i).getTxTraffic() > 1024) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;
         case Commons.RECEIVE_TRAFFIC_TYPE:
-          if (appTrafficInfos.get(i).getRxTraffic() > 1023) {
+          if (appTrafficInfos.get(i).getRxTraffic() > 1024) {
             appTrafficInfoList.add(appTrafficInfos.get(i));
           }
           break;

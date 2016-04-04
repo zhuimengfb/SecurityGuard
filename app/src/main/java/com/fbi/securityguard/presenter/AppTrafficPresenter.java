@@ -48,9 +48,14 @@ public class AppTrafficPresenter {
    * @param type：0为mobile，1为wifi
    */
   public void countTraffic(int type) {
-    appTrafficModelInterface.countTraffic(type);
+    if (isNetworkTraffic(type)) {
+      appTrafficModelInterface.countTraffic(type);
+    }
   }
 
+  private boolean isNetworkTraffic(int type) {
+    return (type == Commons.STATE_NETWORK_MOBILE || type == Commons.STATE_NETWORK_WIFI);
+  }
   public void unbind() {
     this.appTrafficInterface = null;
   }

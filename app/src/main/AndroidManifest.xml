@@ -5,8 +5,10 @@
     <uses-permission android:name="android.permission.DELETE_PACKAGES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
 
     <application
         android:sharedUserId="android.uid.system"
@@ -27,9 +29,11 @@
         <activity android:name=".view.TrafficControlActivity"/>
         <activity android:name=".view.PermissionListViewActivity"/>
         <activity android:name=".view.AppTrafficActivity"/>
-        <service android:name=".service.TrafficService"/>
         <activity android:name=".view.PermissionAppListActivity"/>
         <activity android:name=".view.AppListViewActivity"/>
+        <activity android:name=".view.RunningAppActivity"/>
+        <service android:name=".service.TrafficService"/>
+        <service android:name=".service.RunningAppService"/>
     </application>
 
 </manifest>

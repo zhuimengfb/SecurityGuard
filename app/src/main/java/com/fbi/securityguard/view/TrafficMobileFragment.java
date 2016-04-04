@@ -67,7 +67,7 @@ public class TrafficMobileFragment extends BaseFragment implements AppTrafficInt
 
   private void initData() {
     appTrafficRecyclerViewAdapter = new AppTrafficRecyclerViewAdapter(getActivity()
-        .getApplicationContext(), appTrafficInfos, totalTraffic, Commons.RECEIVE_TRAFFIC_TYPE);
+        .getApplicationContext(), appTrafficInfos, totalTraffic, Commons.TOTAL_TRAFFIC_TYPE);
     trafficRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     trafficRecyclerView.setAdapter(appTrafficRecyclerViewAdapter);
     trafficRecyclerView.setItemAnimator(new DefaultItemAnimator());
