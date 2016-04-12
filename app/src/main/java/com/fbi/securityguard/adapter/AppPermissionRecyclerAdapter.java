@@ -47,7 +47,11 @@ public class AppPermissionRecyclerAdapter extends RecyclerView
   public void onBindViewHolder(AppPermissionViewHolder holder, final int position) {
     holder.setAppName(appPermissionInfos.get(position).getAppInfo().getAppName());
     holder.setAppIcon(appPermissionInfos.get(position).getAppInfo().getAppIcon());
-    holder.setAppPermissionNumber(appPermissionInfos.get(position).getPermissions().length);
+    if (appPermissionInfos.get(position).getPermissions()!=null) {
+      holder.setAppPermissionNumber(appPermissionInfos.get(position).getPermissions().length);
+    } else {
+      holder.setAppPermissionNumber(0);
+    }
     holder.appPermissionItemLayout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

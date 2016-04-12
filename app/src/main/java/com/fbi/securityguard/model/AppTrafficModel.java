@@ -29,20 +29,14 @@ public class AppTrafficModel implements AppTrafficModelInterface {
   private long totalTraffic = 0;
   private long totalRxTraffic = 0;
   private long totalTxTraffic = 0;
-  private TrafficPreferencesUtils mobileTrafficPreferencesUtils;
-  private TrafficPreferencesUtils wifiTrafficPreferencesUtils;
+  private TrafficPreferencesUtils trafficPreferencesUtils;
   private TrafficDataDbManager trafficDataDbManager;
   private boolean isCountingTraffic = false;
 
 
   public AppTrafficModel(Context context) {
     this.context = context;
-    mobileTrafficPreferencesUtils = new TrafficPreferencesUtils(context,
-        TrafficPreferencesUtils
-            .MOBILE_TRAFFIC_SHAREDPREFERENCES_TYPE);
-    wifiTrafficPreferencesUtils = new TrafficPreferencesUtils(context,
-        TrafficPreferencesUtils
-            .WIFI_TRAFFIC_SHAREDPREFERENCES_TYPE);
+    trafficPreferencesUtils = new TrafficPreferencesUtils(context);
     trafficDataDbManager = TrafficDataDbManager.getInstance(context);
   }
 
@@ -84,15 +78,9 @@ public class AppTrafficModel implements AppTrafficModelInterface {
       AppTrafficInfo appTrafficInfo = new AppTrafficInfo();
       appTrafficInfo.setAppInfo(appInfo);
       try {
-        /*rxTraffic = TrafficStats.getUidRxBytes(context.getPackageManager()
-        .getPackageInfo
-                (appInfo.getPackageName(), 0).applicationInfo.uid);*/
         rxTraffic = TrafficUtils.getUidRxBytes(context.getPackageManager().getPackageInfo(
             appInfo.getPackageName(), 0).applicationInfo.uid);
         this.totalRxTraffic += rxTraffic;
-        /*txTraffic = TrafficStats.getUidTxBytes(context.getPackageManager()
-        .getPackageInfo
-                (appInfo.getPackageName(), 0).applicationInfo.uid);*/
         txTraffic = TrafficUtils.getUidTxBytes(context.getPackageManager().getPackageInfo(
             appInfo.getPackageName(), 0).applicationInfo.uid);
         this.totalTxTraffic += txTraffic;
@@ -149,14 +137,14 @@ public class AppTrafficModel implements AppTrafficModelInterface {
   }
 
   private void countMobileTraffic() {
-    countTraffic(mobileTrafficPreferencesUtils, Commons.STATE_NETWORK_MOBILE);
+    countTrafficWithPreference(Commons.STATE_NETWORK_MOBILE);
   }
 
   private void countWifiTraffic() {
-    countTraffic(wifiTrafficPreferencesUtils, Commons.STATE_NETWORK_WIFI);
+    countTrafficWithPreference(Commons.STATE_NETWORK_WIFI);
   }
 
-  private void countTraffic(final TrafficPreferencesUtils trafficPreferencesUtils, final int type) {
+  private void countTrafficWithPreference(final int type) {
     if (! isCountingTraffic) {
       isCountingTraffic = true;
       queryTraffic();
@@ -175,7 +163,7 @@ public class AppTrafficModel implements AppTrafficModelInterface {
           txIncrease = appTrafficInfo.getTxTraffic() - trafficPreferencesUtils.getOldTx(
               appTrafficInfo.getAppInfo().getPackageName());
         }
-        if (! trafficPreferencesUtils.isFirst()) {
+        if (! trafficPreferencesUtils.isFirst() && (rxIncrease + txIncrease) > 0) {
           TrafficData trafficData = new TrafficData();
           trafficData.setUid(appTrafficInfo.getAppInfo().getUid());
           trafficData.setType(type);
@@ -222,7 +210,7 @@ public class AppTrafficModel implements AppTrafficModelInterface {
 
   private List<AppTrafficInfo> queryDetailTraffic(int type, Date startTime, Date endTime) {
     if (TrafficService.lastNetworkState != Commons.STATE_NETWORK_NULL) {
-      countTraffic(TrafficService.lastNetworkState );
+      countTraffic(TrafficService.lastNetworkState);
     }
     List<AppTrafficInfo> appTrafficInfoList = new ArrayList<>();
     for (AppTrafficInfo appTrafficInfo : appTrafficInfos) {

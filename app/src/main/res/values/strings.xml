@@ -32,4 +32,7 @@
     <string name="whiteList">添加白名单</string>
     <string name="memoryOccupy">内存占用</string>
     <string name="removeWhiteList">移出白名单</string>
+    <string name="noSecurity">该wifi没有加密，请谨慎使用</string>
+    <string name="WifiSecurity">wifi加密安全，请放心使用</string>
+    <string name="wifi_control_enabled">wifi监控功能已开启</string>
 </resources>

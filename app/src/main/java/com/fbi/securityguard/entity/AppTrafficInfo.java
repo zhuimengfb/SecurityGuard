@@ -60,7 +60,7 @@ public class AppTrafficInfo implements Serializable {
 
     @Override
     public int compare(AppTrafficInfo lhs, AppTrafficInfo rhs) {
-      return (int) (rhs.getTotalTraffic() - lhs.getTotalTraffic());
+      return (int) (rhs.getTotalTraffic()/1024 - lhs.getTotalTraffic()/1024);
     }
   }
 
@@ -68,7 +68,7 @@ public class AppTrafficInfo implements Serializable {
 
     @Override
     public int compare(AppTrafficInfo lhs, AppTrafficInfo rhs) {
-      return (int) (rhs.getRxTraffic() - lhs.getRxTraffic());
+      return (int) (rhs.getRxTraffic()/1024 - lhs.getRxTraffic()/1024);
     }
   }
 
@@ -76,7 +76,7 @@ public class AppTrafficInfo implements Serializable {
 
     @Override
     public int compare(AppTrafficInfo lhs, AppTrafficInfo rhs) {
-      return (int) (rhs.getTxTraffic() - lhs.getTxTraffic());
+      return (int) (rhs.getTxTraffic()/1024 - lhs.getTxTraffic()/1024);
     }
   }
 

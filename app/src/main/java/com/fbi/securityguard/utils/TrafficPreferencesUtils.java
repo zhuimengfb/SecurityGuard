@@ -23,10 +23,8 @@ public class TrafficPreferencesUtils {
       + ".traffic_sharedPreferences_total.";
   private static final String TRAFFIC_SHAREDPREFERENCES_UPDATE_TIME = Commons.PACKAGE_NAME + ""
       + ".traffic_sharedPreferences_update_time";
-  private static final String MOBILE_TRAFFIC_SHAREDPREFERENCES = Commons.PACKAGE_NAME + ""
-      + ".sharedPreferences_traffic_mobile";
-  private static final String WIFI_TRAFFIC_SHAREDPREFERENCES = Commons.PACKAGE_NAME + ""
-      + ".sharedPreferences_traffic_wifi";
+  private static final String TRAFFIC_SHAREDPREFERENCES = Commons.PACKAGE_NAME + ""
+      + ".sharedPreferences_traffic";
   private static final String IS_FIRST = Commons.PACKAGE_NAME + ".is_first";
 
   public static final int MOBILE_TRAFFIC_SHAREDPREFERENCES_TYPE = 0;
@@ -39,16 +37,11 @@ public class TrafficPreferencesUtils {
    * 存储流量信息工具构造函数.
    *
    * @param context:上下文
-   * @param sharedPreferencesType:0为移动流量，1为wifi流量
+   *
    */
-  public TrafficPreferencesUtils(Context context, int sharedPreferencesType) {
-    if (sharedPreferencesType == MOBILE_TRAFFIC_SHAREDPREFERENCES_TYPE) {
-      sharedPreferences = context
-          .getSharedPreferences(MOBILE_TRAFFIC_SHAREDPREFERENCES, Context.MODE_PRIVATE);
-    } else if (sharedPreferencesType == WIFI_TRAFFIC_SHAREDPREFERENCES_TYPE) {
-      sharedPreferences = context
-          .getSharedPreferences(WIFI_TRAFFIC_SHAREDPREFERENCES, Context.MODE_PRIVATE);
-    }
+  public TrafficPreferencesUtils(Context context) {
+    sharedPreferences = context.getSharedPreferences(TRAFFIC_SHAREDPREFERENCES, Context
+        .MODE_PRIVATE);
   }
 
   public long getOldRx(String packageName) {

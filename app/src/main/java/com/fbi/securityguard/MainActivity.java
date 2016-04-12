@@ -15,6 +15,7 @@ import com.fbi.securityguard.view.AppListViewActivity;
 import com.fbi.securityguard.view.PermissionControlActivity;
 import com.fbi.securityguard.view.RunningAppActivity;
 import com.fbi.securityguard.view.TrafficControlActivity;
+import com.fbi.securityguard.view.WifiControlActivity;
 import com.fbi.securityguard.view.base.BaseActivity;
 import com.fbi.securityguard.view.viewinterface.RunningAppInterface;
 import com.fbi.securityguard.view.widget.circleview.DashedCircularProgress;
@@ -126,7 +127,9 @@ public class MainActivity extends BaseActivity implements RunningAppInterface {
   }
 
   private void gotoWifiMonitorActivity() {
-
+    Intent intent = new Intent();
+    intent.setClass(this, WifiControlActivity.class);
+    startActivity(intent);
   }
   private void gotoTrafficActivity() {
     gotoNewActivity(TrafficControlActivity.class);

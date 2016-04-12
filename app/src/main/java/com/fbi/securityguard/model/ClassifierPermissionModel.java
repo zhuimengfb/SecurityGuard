@@ -47,9 +47,11 @@ public class ClassifierPermissionModel implements ClassifierPermissionModelInter
             appInfo.setPackageName(packageInfos.get(i).packageName);
             appInfo.setVersionName(packageInfos.get(i).versionName);
             String[] permissions = packageInfos.get(i).requestedPermissions;
-            for (String permission : permissions) {
-              if (permissionPairUtils.parsePermission(permission) != null) {
-                insertAppInfo(permissionPairUtils.parsePermission(permission), appInfo);
+            if (permissions != null && permissions.length>0) {
+              for (String permission : permissions) {
+                if (permissionPairUtils.parsePermission(permission) != null) {
+                  insertAppInfo(permissionPairUtils.parsePermission(permission), appInfo);
+                }
               }
             }
           }

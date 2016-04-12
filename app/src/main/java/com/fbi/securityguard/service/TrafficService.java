@@ -35,7 +35,12 @@ public class TrafficService extends Service {
   public void onCreate() {
     super.onCreate();
     registerMyReceiver();
-    getInitNetworkState();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        getInitNetworkState();
+      }
+    }).start();
   }
 
   private void getInitNetworkState() {
